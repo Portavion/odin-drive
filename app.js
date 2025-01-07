@@ -9,6 +9,7 @@ const { PrismaClient } = require("@prisma/client");
 
 const indexRouter = require("./routes/indexRouter");
 const userRouter = require("./routes/userRouter");
+const fileRouter = require("./routes/fileRouter.js");
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.set("view engine", "pug");
 
 app.use("/", indexRouter);
 app.use("/user", userRouter);
+app.use("/file", fileRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

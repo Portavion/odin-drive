@@ -2,9 +2,13 @@ extends layout
 
 block content
   h1= title
+  div.logoContainer
+   img(src="/images/gogoleDrive.png", alt="Gogole Drive logo" class="logo")
   p Welcome to Gogole Drive 
   if user
     p Your username is #{user.username}
+      br
+    a(href="/file/upload") Upload a file
   else
     a(href="/user/login") Login
       br
