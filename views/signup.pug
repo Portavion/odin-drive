@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1 Sign-up
+  if errors
+    each error, i in errors
+      div(class='alert alert-danger') #{error.msg}
+
+  form(action="/user/signup" method="POST") 
+    div.formGroup 
+      label(for="username") Username:
+      input(type="text" name="username" id="username" placeholder='username' required)
+    div.formGroup
+      label(for="email") Email:
+      input(type="email" name='email' id='email' placeholder='name@domain.com' required)
+    div.formGroup 
+      label(for="password") Password:
+      input(type="password" name="password" id="password" placeholder='password' required)
+    div.formGroup 
+      label(for="confirm-password") Confirm Password:
+      input(type="password" name="confirm-password" id="confirm-password" placeholder='password' required)
+    div.formGroup
+      button(type='submit') Submit
+

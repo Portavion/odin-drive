@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to Gogole Drive 
+  if user
+    p Your username is #{user.username}
+  else
+    a(href="/user/login") Login
+      br
+    p Don't have an account? 
+      a(href="/user/signup") Signup

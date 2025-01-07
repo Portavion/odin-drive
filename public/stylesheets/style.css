@@ -1,0 +1,24 @@
+body {
+  padding: 50px;
+  font:
+    14px "Lucida Grande",
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+a {
+  color: #00b7ff;
+}
+
+.formGroup {
+  margin-bottom: 0.5rem;
+}
+
+label {
+  margin-right: 0.5rem;
+}
+
+.alert {
+  color: firebrick;
+}
