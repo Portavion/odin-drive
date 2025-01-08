@@ -1,0 +1,13 @@
+p > 
+  strong #{currentFolder.folderName}: 
+ul 
+  unless currentFolderId===0
+    li(class="prevFolder")
+      a(href=`/?currentFolderId=${currentFolder.parentFolderId}`) .. 
+  each folder in folderList 
+    li(class="folder")
+      a(href=`/?currentFolderId=${folder.id}`)= folder.folderName
+      | 
+      a(href=`/folder/rename?folderId=${folder.id}`) (Rename) 
+      | 
+      a(href=`/folder/delete/${folder.id}`) (Delete) 

@@ -4,9 +4,13 @@ block content
   h1= title
   div.logoContainer
    img(src="/images/gogoleDrive.png", alt="Gogole Drive logo" class="logo")
-  p Welcome to Gogole Drive 
   if user
-    p Your username is #{user.username}
+    p Welcome back #{user.username}
+      | 
+      a(href="/user/logout") (Logout)
+      br
+    include fileExplorer.pug
+    a(href=`/folder/create?parentFolderId=${currentFolderId}`) Create a folder
       br
     a(href="/file/upload") Upload a file
   else

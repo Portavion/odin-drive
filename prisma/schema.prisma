@@ -21,8 +21,30 @@ model Session {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  email    String @unique
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  email    String   @unique
   password String
+  Folder   Folder[]
+  File     File[]
+}
+
+model Folder {
+  id             Int    @id @default(autoincrement())
+  folderName     String
+  parentFolderId Int?
+  user           User?  @relation(fields: [userId], references: [id])
+  userId         Int?
+  File           File[]
+
+  @@unique([parentFolderId, id])
+}
+
+model File {
+  id       Int     @id @default(autoincrement())
+  url      String
+  folder   Folder? @relation(fields: [folderId], references: [id])
+  folderId Int?
+  user     User?   @relation(fields: [userId], references: [id])
+  userId   Int?
 }
