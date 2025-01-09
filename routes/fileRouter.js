@@ -12,6 +12,7 @@ router.get("/rename", (req, res, next) => {
 });
 router.get("/delete/:fileId", fileController.deleteFile);
 router.get("/details/:fileId", fileController.renderDetails);
+router.get("/download/:filename", fileController.fileDownload);
 
 /* POST /file/  */
 router.post("/upload", fileController.uploadFile);

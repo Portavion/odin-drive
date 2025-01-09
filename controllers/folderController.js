@@ -1,6 +1,12 @@
 const { validationResult } = require("express-validator");
 const prisma = require("../db/prisma");
 const validators = require("../validators");
+const { createClient } = require("@supabase/supabase-js");
+// Create Supabase client
+const supabase = createClient(
+  `${process.env.SUPABASE_URL}`,
+  `${process.env.SUPABASE_ANON_KEY}`,
+);
 
 exports.renderForm = async (req, res, next) => {
   const id = Number(req.query.id);
@@ -125,9 +131,16 @@ async function deleteFolder(folderId) {
   });
 
   for (const file of deleteFolderFiles) {
-    await prisma.file.delete({
+    const deletedFile = await prisma.file.delete({
       where: { id: file.id },
     });
+
+    const filename = deletedFile.filename;
+    const fileId = deletedFile.id;
+
+    const { data, error } = await supabase.storage
+      .from("drive")
+      .remove([`public/${fileId}_${filename}`]);
   }
 
   await prisma.folder.delete({

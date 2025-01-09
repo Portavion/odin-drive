@@ -6,8 +6,9 @@ block content
   p Size: #{size}B
   p Upload Date: #{uploadDate}
     br
-  button
-    a(href=`${fileUrl}`) Download 
-  br
+  a(href=`/file/download/${fileId}_${name}`) Download 
+    br
+
   a(href=`/?id=${folderId}`) Return 
     br
+

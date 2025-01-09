@@ -13,6 +13,7 @@ const fileRouter = require("./routes/fileRouter.js");
 const folderRouter = require("./routes/folderRouter.js");
 
 const app = express();
+require("dotenv").config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
