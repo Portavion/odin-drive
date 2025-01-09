@@ -3,35 +3,54 @@ const prisma = require("../db/prisma");
 const validators = require("../validators");
 
 exports.renderForm = async (req, res, next) => {
-  const folderId = Number(req.query.parentFolderId)
-    ? Number(req.query.parentFolderId)
-    : Number(req.query.folderId);
+  const id = Number(req.query.id);
+  const queryString = req.type === "file" ? "fileId" : "parentFolderId";
   let newFolder;
 
-  if (!folderId || folderId == 0) {
+  if (!id || id == 0) {
     const folderName = "root";
     res.render("folderForm", {
-      parentFolderName: folderName,
-      parentFolderId: 0,
+      name: folderName,
+      id: 0,
       action: req.action,
+      type: req.type,
+      queryString: queryString,
     });
     return;
   }
-
-  try {
-    newFolder = await prisma.folder.findUnique({
-      where: { id: folderId },
+  if (req.type === "folder") {
+    try {
+      newFolder = await prisma.folder.findUnique({
+        where: { id: id },
+      });
+    } catch (errors) {
+      return next(errors);
+    }
+    const folderName = newFolder.folderName;
+    res.render("folderForm", {
+      name: folderName,
+      id: id,
+      action: req.action,
+      type: req.type,
+      queryString: queryString,
     });
-  } catch (errors) {
-    return next(errors);
+  } else if (req.type === "file") {
+    try {
+      file = await prisma.file.findUnique({
+        where: { id: id },
+      });
+    } catch (errors) {
+      return next(errors);
+    }
+    const filename = file.filename;
+    res.render("folderForm", {
+      name: filename,
+      id: id,
+      action: req.action,
+      type: req.type,
+      queryString: queryString,
+    });
   }
-
-  const folderName = newFolder.folderName;
-  res.render("folderForm", {
-    parentFolderName: folderName,
-    parentFolderId: folderId,
-    action: req.action,
-  });
 };
 
 exports.createFolder = [
@@ -53,7 +72,7 @@ exports.createFolder = [
       },
     });
 
-    res.redirect(`/?currentFolderId=${parentFolderId}`);
+    res.redirect(`/?id=${parentFolderId}`);
   },
 ];
 
@@ -75,7 +94,7 @@ exports.renameFolder = [
       },
     });
 
-    res.redirect(`/?currentFolderId=${renamedFolder.parentFolderId}`);
+    res.redirect(`/?id=${renamedFolder.parentFolderId}`);
   },
 ];
 
@@ -100,6 +119,17 @@ async function deleteFolder(folderId) {
       await deleteFolder(childFolder.id);
     }
   }
+
+  const deleteFolderFiles = await prisma.file.findMany({
+    where: { folderId: folderId },
+  });
+
+  for (const file of deleteFolderFiles) {
+    await prisma.file.delete({
+      where: { id: file.id },
+    });
+  }
+
   await prisma.folder.delete({
     where: { id: folderId },
   });

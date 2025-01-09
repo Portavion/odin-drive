@@ -8,6 +8,7 @@
   "dependencies": {
     "@prisma/client": "^6.2.0",
     "@quixo3/prisma-session-store": "^3.1.13",
+    "@supabase/supabase-js": "^2.47.12",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",

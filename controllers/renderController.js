@@ -6,14 +6,19 @@ exports.renderIndex = async (req, res) => {
     res.render("index");
     return;
   }
-  const currentFolderId =
-    req.query.currentFolderId === undefined
-      ? 0
-      : Number(req.query.currentFolderId);
+  const currentFolderId = req.query.id === undefined ? 0 : Number(req.query.id);
 
   const folderList = await prisma.folder.findMany({
     where: { userId: user.id, parentFolderId: currentFolderId },
     orderBy: { folderName: "asc" },
+  });
+
+  const fileList = await prisma.file.findMany({
+    where: {
+      userId: user.id,
+      folderId: currentFolderId == 0 ? null : currentFolderId,
+    },
+    orderBy: { filename: "asc" },
   });
 
   let currentFolder =
@@ -30,5 +35,6 @@ exports.renderIndex = async (req, res) => {
     currentFolder: currentFolder,
     currentFolderId: currentFolderId,
     folderList: folderList,
+    fileList: fileList,
   });
 };

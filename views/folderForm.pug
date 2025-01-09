@@ -2,15 +2,15 @@ extends layout
 
 block content
   if action==='create'
-    h1 New folder inside #{parentFolderName} 
+    h1 New folder inside #{name} 
   if action==='rename'
-    h1 Rename #{parentFolderName} 
+    h1 Rename #{name} 
   if errors
     each error, i in errors
       div(class='alert alert-danger') #{error.msg}
 
-  form(action=`/folder/${action}?parentFolderId=${parentFolderId}` method="POST" ) 
-      label(for="name") Folder name:
+  form(action=`/${type}/${action}?${queryString}=${id}` method="POST" ) 
+      label(for="name") New name:
       input(type="text" name="name" id="name" required) 
       br.spacer
       button(type='submit') Submit

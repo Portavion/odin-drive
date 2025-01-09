@@ -10,9 +10,9 @@ block content
       a(href="/user/logout") (Logout)
       br
     include fileExplorer.pug
-    a(href=`/folder/create?parentFolderId=${currentFolderId}`) Create a folder
+    a(href=`/folder/create?id=${currentFolderId}`) Create a folder
       br
-    a(href="/file/upload") Upload a file
+    a(href=`/file/upload?currentFolderId=${currentFolderId}`) Upload a file
   else
     a(href="/user/login") Login
       br

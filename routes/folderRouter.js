@@ -1,21 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const folderRouter = require("../controllers/folderController");
+const folderController = require("../controllers/folderController");
 
 /* GET /folder/create  */
 router.get("/create", (req, res, next) => {
   req.action = "create";
-  folderRouter.renderForm(req, res, next);
+  req.type = "folder";
+  folderController.renderForm(req, res, next);
 });
 router.get("/rename", (req, res, next) => {
   req.action = "rename";
-  folderRouter.renderForm(req, res, next);
+  req.type = "folder";
+  folderController.renderForm(req, res, next);
 });
 
-router.get("/delete/:folderId", folderRouter.deleteFolder);
+router.get("/delete/:folderId", folderController.deleteFolder);
 
 /* POST /file/  */
-router.post("/create", folderRouter.createFolder);
-router.post("/rename", folderRouter.renameFolder);
+router.post("/create", folderController.createFolder);
+router.post("/rename", folderController.renameFolder);
 
 module.exports = router;

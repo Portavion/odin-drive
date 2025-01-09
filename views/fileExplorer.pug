@@ -3,11 +3,18 @@ p >
 ul 
   unless currentFolderId===0
     li(class="prevFolder")
-      a(href=`/?currentFolderId=${currentFolder.parentFolderId}`) .. 
+      a(href=`/?id=${currentFolder.parentFolderId}`) .. 
   each folder in folderList 
     li(class="folder")
-      a(href=`/?currentFolderId=${folder.id}`)= folder.folderName
+      a(href=`/?id=${folder.id}`)= folder.folderName
       | 
-      a(href=`/folder/rename?folderId=${folder.id}`) (Rename) 
+      a(href=`/folder/rename?id=${folder.id}`) (Rename) 
       | 
       a(href=`/folder/delete/${folder.id}`) (Delete) 
+  each file in fileList 
+    li(class="file")
+      a(href=`/file/details/${file.id}`)= file.filename
+      | 
+      a(href=`/file/rename?id=${file.id}`) (Rename) 
+      | 
+      a(href=`/file/delete/${file.id}`) (Delete) 
