@@ -121,8 +121,9 @@ exports.renameFile = [
         filename: filename,
       },
     });
-
-    res.redirect(`/?id=${renamedFile.folderId}`);
+    console.log(renamedFile);
+    const redirectId = renamedFile.folderId ? Number(renamedFile.folderId) : 0;
+    res.redirect(`/?id=${redirectId}`);
   },
 ];
 
